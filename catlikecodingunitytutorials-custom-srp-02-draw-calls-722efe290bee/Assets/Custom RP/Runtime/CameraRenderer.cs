@@ -18,6 +18,8 @@ public partial class CameraRenderer {
 
 	CullingResults cullingResults;
 
+	Lighting lighting = new Lighting();
+
 	public void Render (
 		ScriptableRenderContext context, Camera camera,
 		bool useDynamicBatching, bool useGPUInstancing
@@ -33,6 +35,7 @@ public partial class CameraRenderer {
 		}
 
 		Setup();//初始化参数的函数
+		lighting.Setup(context, cullingResults); //初始化光照信息给GPU
 		DrawVisibleGeometry(useDynamicBatching, useGPUInstancing);
 		DrawUnsupportedShaders();
 		DrawGizmos();//绘制Gizmos

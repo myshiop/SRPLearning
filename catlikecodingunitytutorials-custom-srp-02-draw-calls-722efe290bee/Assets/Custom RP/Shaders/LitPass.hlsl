@@ -3,6 +3,8 @@
 
 #include "../ShaderLibrary/Common.hlsl"
 #include "../ShaderLibrary/Surface.hlsl"
+#include "../ShaderLibrary/Light.hlsl"
+#include "../ShaderLibrary/Lighting.hlsl"
 
 TEXTURE2D(_BaseMap); //纹理必须上传到GPU
 SAMPLER(sampler_BaseMap); //必须先指定采样器(采样器状态)
