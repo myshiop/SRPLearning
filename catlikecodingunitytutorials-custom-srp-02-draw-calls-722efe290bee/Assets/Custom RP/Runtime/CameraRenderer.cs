@@ -84,7 +84,7 @@ public partial class CameraRenderer {
 			enableDynamicBatching = useDynamicBatching,
 			enableInstancing = useGPUInstancing
 		};//绘制设置
-		drawingSettings.SetShaderPassName(1, litShaderTagId);
+		drawingSettings.SetShaderPassName(1, litShaderTagId); //传递第二个着色器
 		var filteringSettings = new FilteringSettings(RenderQueueRange.opaque);//滤波设置，先绘制不透明物体
 
 		context.DrawRenderers(

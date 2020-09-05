@@ -11,7 +11,8 @@ public class Lighting{
 
     static int dirLitghCountId = Shader.PropertyToID("_DirectionalLightCount"),
                dirLightColorsId = Shader.PropertyToID("_DirectionalLightColors"),
-               dirLightDirectionIds = Shader.PropertyToID("_DircitionalLightDirecitons");
+               dirLightDirectionsId = Shader.PropertyToID("_DirectionalLightDirecitons");
+
 
     static Vector4[] dirLightColors = new Vector4[maxDirLightCount],
                      dirLightDirections = new Vector4[maxDirLightCount];
@@ -31,15 +32,34 @@ public class Lighting{
 
     void SetupLights()
     {
-        NativeArray<VisibleLight> visibleLights = cullingResults.visibleLights;
+        NativeArray<VisibleLight> visibleLights = cullingResults.visibleLights; //返回当前的所有可见光
+        int dirLightCount = 0;
+        for (int i = 0; i < visibleLights.Length; i++)
+        {
+            VisibleLight visibleLight = visibleLights[i];
+            if(visibleLight.lightType == LightType.Directional)
+            {
+                SetUpDirectionalLight(dirLightCount++, ref visibleLight);
+                if (dirLightCount >= maxDirLightCount) //现在最多只支持四个定向灯
+                {
+                    break;
+                }
+            }
+        }
+
+        buffer.SetGlobalInt(dirLitghCountId, dirLightCount);
+        buffer.SetGlobalVectorArray(dirLightColorsId, dirLightColors);
+        buffer.SetGlobalVectorArray(dirLightDirectionsId, dirLightDirections);
+
     }
 
-    void SetUpDirectionalLight(int index, VisibleLight visibleLight)
+    //初始化几个方向光的属性
+    void SetUpDirectionalLight(int index, ref VisibleLight visibleLight)
     {
         //    Light light = RenderSettings.sun; //获得当前场景中的主光源
         //    buffer.SetGlobalVector(dirLightColorId, light.color.linear * light.intensity); //用线性空间的颜色乘上光源的亮度
         //    buffer.SetGlobalVector(dirLightDirectionId, -light.transform.forward); //注意方向要取反，还有就是这个forward，这里代表取的是Z轴的方向
         dirLightColors[index] = visibleLight.finalColor;
-        dirLightDirections[index] = -visibleLight.localToWorldMatrix.GetColumn(2);
+        dirLightDirections[index] = -visibleLight.localToWorldMatrix.GetColumn(2); //矩阵的第三列，表示forward方向
     }
 }

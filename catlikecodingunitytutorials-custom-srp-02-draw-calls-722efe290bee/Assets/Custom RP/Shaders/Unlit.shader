@@ -18,6 +18,7 @@
 			ZWrite [_ZWrite]
 
 			HLSLPROGRAM
+			#pragma target 3.5
 			#pragma shader_feature _CLIPPING
 			//启用GPU实例化，本质是将具有相同网格物体的各自材质放到一个数组里送到gpu，然后遍历它，按顺序渲染
 			#pragma multi_compile_instancing 

@@ -1,15 +1,14 @@
 ﻿#ifndef CUSTOM_SURFACE_INCLUDED
 #define CUSTOM_SURFACE_INCLUDED
+//计算着色结果
 
 struct Surface{
 	float3 normal;
+	float3 viewDirection; 
 	float3 color;
-	float3 alpha;
+	float alpha;
+	float metallic;
+	float smoothness;
 };
-
-float3 GetLighting (Surface surface){
-	return surface.normal.y * surface.color;	
-}
-
 
 #endif

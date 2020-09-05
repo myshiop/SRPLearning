@@ -14,6 +14,7 @@ public class CustomRenderPipeline : RenderPipeline {
 		this.useDynamicBatching = useDynamicBatching;
 		this.useGPUInstancing = useGPUInstancing;
 		GraphicsSettings.useScriptableRenderPipelineBatching = useSRPBatcher; //启用SRP批处理
+		GraphicsSettings.lightsUseLinearIntensity = true;
 	}
 
 	protected override void Render (
